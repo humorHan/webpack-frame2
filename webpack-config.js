@@ -46,6 +46,11 @@ var htmlPlugin = (function(){
  * @param isDev   调试模式 vs 线上
  */
 module.exports = function(isWatch, isDev) {
+    var cssName = isDev ? 'css/[name].css' : 'css/[name]-[contenthash].css';
+    var cssExtractTextPlugin = new ExtractTextPlugin(cssName, {
+        disable: false,
+        allChunks: false //不将所有的文件都打包到一起
+    });
     return {
         watch: isWatch,
         cache: isWatch,
@@ -54,7 +59,7 @@ module.exports = function(isWatch, isDev) {
         entry: entries,
         output: {
             path: path.join(__dirname, 'bundle'),
-            publicPath: '/bundle/',
+            publicPath: '/webpack-frame2/bundle/',
             filename: isDev ? "js/[name].js" : "js/[name]-[chunkhash].js",
             chunkFilename: isDev ? "js/[name]-chunk.js" : "js/[name]-chunk-[chunkhash].js"
         },
@@ -68,18 +73,16 @@ module.exports = function(isWatch, isDev) {
         },
         module: {
             loaders: [
-                /*  {
+                  {
                  test: /\.less$/,
                  //loader: 'style!css!less?sourceMap'
                  //loader: isDev ? ExtractTextPlugin.extract('style!css?sourceMap!less?sourceMap?sourceMap=inline?sourceMap') : ExtractTextPlugin.extract('style!css!less')
-                 loader: ExtractTextPlugin.extract('css?sourceMap!' +
-                 'less?sourceMap'
-                 )
-                 },*/
-                {
+                 loader: /*isDev ? 'style!css?sourceMap!less?sourceMap' : */cssExtractTextPlugin.extract('style', ['css!less'])
+                 },
+               /* {
                     test: /\.less$/,
                     loader: ExtractTextPlugin.extract("style-loader", "css-loader!less-loader")
-                },
+                },*/
                 {
                     test: /\.tpl$/,
                     loader: 'tmodjs-loader'
@@ -101,42 +104,16 @@ module.exports = function(isWatch, isDev) {
             ]
         },
         plugins: (function (){
+            var pluginsArr = [];
             if (isDev) {
-                return [
+                pluginsArr.push(
                     new webpack.optimize.CommonsChunkPlugin({
                         name: "vendor",
                         filename: "js/vendor.js",
                         minChunks: Infinity
-                    }),
-                    new ExtractTextPlugin('css/[name].css', {
-                        disable: false,
-                        allChunks: true
-                    })
-                ].concat(htmlPlugin);
-            } else {
-                return [
-                    new webpack.optimize.UglifyJsPlugin({
-                        compress: {
-                            warnings: false
-                        },
-                        output: {
-                            comments: false
-                        },
-                        mangle: {
-                            except: ['$', 'exports', 'require']
-                        }
-                    }),
-                    new ExtractTextPlugin('css/[name]-[contenthash].css', {
-                        disable: false,
-                        allChunks: false
-                    }),
-                    new webpack.optimize.CommonsChunkPlugin({
-                        name: "vendor",
-                        filename: "vendor.js",
-                        minChunks: 5 //Infinity
-                    })
-                ].concat(htmlPlugin);
+                    }), cssExtractTextPlugin);
             }
+            return pluginsArr.concat(htmlPlugin);
         })(),
         externals: {
             'jquery': '$'

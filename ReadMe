@@ -1,0 +1,5 @@
+webpack开发环境 基本架子
+1.测试包        gulp bundle
+2.正式包        gulp package
+
+注意： js中写跳转到某个html的时候，按照html根文件夹写路径（版本化需要，否则匹配不到对应的html）

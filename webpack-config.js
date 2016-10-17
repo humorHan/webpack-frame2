@@ -22,6 +22,7 @@ var entries = (function(){
 })();
 
 //html
+//TODO 放在配置文件内通过传参决定html的hash是否添加
 var htmlPlugin = (function(){
     var entryHtml = glob.sync(htmlDir + '/*.html');
     var tempArr = [];

@@ -76,7 +76,6 @@ module.exports = function(isWatch, isDev) {
             loaders: [
                   {
                  test: /\.less$/,
-                 //loader: 'style!css!less?sourceMap'
                  //loader: isDev ? ExtractTextPlugin.extract('style!css?sourceMap!less?sourceMap?sourceMap=inline?sourceMap') : ExtractTextPlugin.extract('style!css!less')
                  loader: /*isDev ? 'style!css?sourceMap!less?sourceMap' : */cssExtractTextPlugin.extract('style', ['css!less'])
                  },

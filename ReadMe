@@ -7,3 +7,6 @@
                                                        var arr = filePath.split('\/');
                                                        fileName = 'html/' + arr[arr.length - 2] + '/' + fileName + '.html'
 3.当然，如果预先知道html是否需要分文件夹且如果分文件夹最多一层的话，可以不用代码去解决如上相对路径引用css的问题（::是否把静态文件放在src文件夹下）
+
+
+//TODO 把htmlPlugin放在配置文件内通过传参决定html的hash是否添加

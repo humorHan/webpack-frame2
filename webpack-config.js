@@ -74,15 +74,17 @@ module.exports = function(isWatch, isDev) {
         },
         module: {
             loaders: [
-                  {
-                 test: /\.less$/,
-                 //loader: isDev ? ExtractTextPlugin.extract('style!css?sourceMap!less?sourceMap?sourceMap=inline?sourceMap') : ExtractTextPlugin.extract('style!css!less')
-                 loader: /*isDev ? 'style!css?sourceMap!less?sourceMap' : */cssExtractTextPlugin.extract('style', ['css!less'])
-                 },
-               /* {
-                    test: /\.less$/,
-                    loader: ExtractTextPlugin.extract("style-loader", "css-loader!less-loader")
+                /*{
+                    test: /\.css$/,
+                    loader: isDev ? 'style!css' : cssExtractTextPlugin.extract('style', ['css'])
                 },*/
+                {
+                    test: /\.less$/,
+                    loader: isDev ? cssExtractTextPlugin.extract(
+                        'css?sourceMap!' +
+                        'less?sourceMap'
+                    ) : cssExtractTextPlugin.extract("style-loader", "css-loader!less-loader")
+                },
                 {
                     test: /\.tpl$/,
                     loader: 'tmodjs-loader'

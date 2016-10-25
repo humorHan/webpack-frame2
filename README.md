@@ -1,8 +1,9 @@
 # webpack-frame2
 强化webpack   弱化gulp
+//TODO 把htmlPlugin放在配置文件内通过传参决定html的hash是否添加<br>
 
 
-以引入css为例，出现的相对路径引用的问题。<br>
+## 以引入css为例，出现的相对路径引用的问题。<br>
 
 1.在html中引入css文件会有相对路径问题，解决办法如下：<br>
    把html、css、js、img等静态文件放在src文件夹下（拼凑出../../bundle路径）<br>
@@ -13,5 +14,22 @@
 3.当然，如果预先知道html是否需要分文件夹且如果分文件夹最多一层的话，可以不用代码去解决如上相对路径引用css的问题（::是否把静态文件放在src文件夹下）<br>
 
 
-//TODO 把htmlPlugin放在配置文件内通过传参决定html的hash是否添加<br>
 
+
+## less文件和文件名字必须一样<br>
+   原因：js中require less文件 webpack认为chunk是js的名字
+
+
+
+## less文件和文件名字必须一样<br>
+
+
+## img需要由gulp更换路径（或者模板文件中不使用img标签，但是尽量还是用gulp处理该问题保证万无一失）
+   原因：模板对webpack的支持度不够好，引用的img无法找到。
+   
+   
+   
+   
+# 综上： 
+    1.js和less文件统一名称
+    2.img由gulp更换路径

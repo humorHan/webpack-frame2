@@ -11,6 +11,7 @@ gulp.task('build', function (done) {
             throw new gulpUtil.PluginError('webpack', err);
         }
         gulpUtil.log('[webpack]', stats.toString({colors: true}));
-    done();
+    //开发环境不需要done（）
+    //done();
     });
 });
